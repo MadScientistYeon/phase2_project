@@ -854,7 +854,7 @@ model.score(X_test**2, y_test)
 
 # Sources
 ### Jupyter notebook
-!['link'](https://github.com/MadScientistYeon/phase2_project/blob/main/student.ipynb)
+<https://github.com/MadScientistYeon/phase2_project/blob/main/student.ipynb>
 
 ### Presentation
-!['link'](https://github.com/MadScientistYeon/phase2_project/blob/main/Presentation.pdf)
+<https://github.com/MadScientistYeon/phase2_project/blob/main/Presentation.pdf>
