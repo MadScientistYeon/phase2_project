@@ -15,70 +15,12 @@ Home buyer as family person requested the guide line to buy a house.
 The stakeholder previously bought a house that was overvalued and far from his son’s school. His family was unimpressed.
 
 # Data Understanding
-
-
-```python
-# import standard packages
-import pandas as pd
-import scipy.stats as stats
-import statsmodels.formula.api as smf
-```
+* King County real estate data for homes sold in and around King County,  Washington.
+* Middle school locations in King County. We are able to calculate the distances from the houses in King County real estate data.  
 
 ### King County House Data
-King County real estate data for homes sold in and around King County,  Washington.
-
-
-```python
-# explore the data
-df = pd.read_csv('data/kc_house_data.csv')
-df2 = pd.read_csv('data/middle_school_hd.csv')
-```
 
 object dtype: Date, waterfront, view, condition, grade, sqft_basement
-
-
-```python
-# check all the dtype is numbers
-df.info()
-```
-
-    <class 'pandas.core.frame.DataFrame'>
-    RangeIndex: 21597 entries, 0 to 21596
-    Data columns (total 21 columns):
-     #   Column         Non-Null Count  Dtype  
-    ---  ------         --------------  -----  
-     0   id             21597 non-null  int64  
-     1   date           21597 non-null  object 
-     2   price          21597 non-null  float64
-     3   bedrooms       21597 non-null  int64  
-     4   bathrooms      21597 non-null  float64
-     5   sqft_living    21597 non-null  int64  
-     6   sqft_lot       21597 non-null  int64  
-     7   floors         21597 non-null  float64
-     8   waterfront     19221 non-null  object 
-     9   view           21534 non-null  object 
-     10  condition      21597 non-null  object 
-     11  grade          21597 non-null  object 
-     12  sqft_above     21597 non-null  int64  
-     13  sqft_basement  21597 non-null  object 
-     14  yr_built       21597 non-null  int64  
-     15  yr_renovated   17755 non-null  float64
-     16  zipcode        21597 non-null  int64  
-     17  lat            21597 non-null  float64
-     18  long           21597 non-null  float64
-     19  sqft_living15  21597 non-null  int64  
-     20  sqft_lot15     21597 non-null  int64  
-    dtypes: float64(6), int64(9), object(6)
-    memory usage: 3.5+ MB
-
-
-
-```python
-df.head()
-```
-
-
-
 
 <div>
 <style scoped>
@@ -250,52 +192,6 @@ df.head()
 
 
 ### Middle school distance data
-Middle school locations in King County. We are able to calculate the distances from the houses in King County real estate data. 
-
-
-```python
-df2.info()
-```
-
-    <class 'pandas.core.frame.DataFrame'>
-    RangeIndex: 21597 entries, 0 to 21596
-    Data columns (total 23 columns):
-     #   Column         Non-Null Count  Dtype  
-    ---  ------         --------------  -----  
-     0   id             21597 non-null  int64  
-     1   date           21597 non-null  object 
-     2   price          21597 non-null  int64  
-     3   bedrooms       21597 non-null  int64  
-     4   bathrooms      21597 non-null  float64
-     5   sqft_living    21597 non-null  int64  
-     6   sqft_lot       21597 non-null  int64  
-     7   floors         21597 non-null  float64
-     8   waterfront     19221 non-null  object 
-     9   view           21534 non-null  object 
-     10  condition      21597 non-null  object 
-     11  grade          21597 non-null  object 
-     12  sqft_above     21597 non-null  int64  
-     13  sqft_basement  21597 non-null  object 
-     14  yr_built       21597 non-null  int64  
-     15  yr_renovated   17755 non-null  float64
-     16  zipcode        21597 non-null  int64  
-     17  lat            21597 non-null  float64
-     18  long           21597 non-null  float64
-     19  sqft_living15  21597 non-null  int64  
-     20  sqft_lot15     21597 non-null  int64  
-     21  HubName        21597 non-null  int64  
-     22  HubDist        21597 non-null  float64
-    dtypes: float64(6), int64(11), object(6)
-    memory usage: 3.8+ MB
-
-
-
-```python
-df2.describe()
-```
-
-
-
 
 <div>
 <style scoped>
@@ -499,15 +395,7 @@ df2.describe()
 </table>
 </div>
 
-
-
-
-```python
-df2.head()
-```
-
-
-
+### Middle School Distance Data
 
 <div>
 <style scoped>
@@ -677,7 +565,6 @@ df2.head()
 </div>
 
 
-
 # Data Preparation
 Prepare the data for house price prediction model
 
@@ -685,95 +572,13 @@ Prepare the data for house price prediction model
 I drop NaN, encode categorical variables and find correlated variables with price
 
 
-```python
-# drop NaN
-cleaned_df = df.dropna()
-```
-
-
-```python
-# sqft_basement is not categorical varibale but have to change dtype to float.
-cleaned_df.sqft_basement.value_counts()
-```
-
-
-
-
-    0.0       9362
-    ?          333
-    600.0      155
-    500.0      151
-    700.0      148
-              ... 
-    2010.0       1
-    1481.0       1
-    1913.0       1
-    4820.0       1
-    248.0        1
-    Name: sqft_basement, Length: 283, dtype: int64
-
-
-
-
-```python
-# sqft_basement have '?' value that is string. I drop '?' values.
-cleaned_df = cleaned_df.loc[cleaned_df.sqft_basement != '?']
-cleaned_df.sqft_basement = cleaned_df.sqft_basement.astype('float')
-```
-
-
-```python
-# drop NaN
-cleaned_df2 = df2.dropna()
-```
-
 # Data Analysis
 
-### Correlation features with price
-
-
-```python
-# import library
-import matplotlib.pyplot as plt
-%matplotlib inline
-plt.style.use('seaborn')
-```
-
-
-```python
-# plot continuous variables with price
-corr_df = abs(cleaned_df.corr().iloc[2:10])['price'].sort_values()
-corr_df.plot.bar(figsize=(15,9), fontsize=20)
-plt.title('Features Effect on Price', fontsize=20)
-plt.xlabel('Features', fontsize=20)
-plt.ylabel('Effect on price', fontsize=20)
-plt.show()
-```
-
-
-    
+### Numeric Features
+ 
 ![png](image/numeric_feature.png)
-    
 
-
-
-```python
-# plot categorical variables with price except date
-
-fig, axes2 = plt.subplots(nrows = 1, ncols = 4, figsize = (15, 10), sharey = True)
-
-categoricals = ['waterfront', 'view', 'condition', 'grade']
-
-for col, ax in zip(categoricals, axes2.flatten()):
-    cleaned_df.groupby(col).mean()['price'].sort_values().plot.bar(ax=ax, fontsize=15)
-    ax.set(xlabel=None)
-    ax.set_title(col, fontsize=20)
-    ax.set_yticks([])
-    ax.set_ylabel('Price', fontsize=20)
-fig.tight_layout()
-```
-
-
+### Categorical Features
     
 ![png](image/categorical_feature.png)
     
@@ -782,212 +587,20 @@ fig.tight_layout()
 # Feature Engineering
 
 ### Preprocess Train Data
-
-
-```python
-# preprocessing with scikit-learn
-y = cleaned_df['price']
-X = cleaned_df.drop('price', axis=1)
-```
-
-
-```python
-from sklearn.model_selection import train_test_split
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
-```
-
-
-```python
-print(f"X_train is a DataFrame with {X_train.shape[0]} rows and {X_train.shape[1]} columns")
-print(f"y_train is a Series with {y_train.shape[0]} values")
-```
-
-    X_train is a DataFrame with 11571 rows and 20 columns
-    y_train is a Series with 11571 values
-
-
-
-```python
-# Select relevant Columns
-relevant_columns = ['bathrooms',
-                    'bedrooms',
-                    'sqft_living',
-                    'waterfront',
-                    'view',
-                    'condition',
-                    'grade',
-                    'sqft_basement',
-                    'lat',
-                    'floors',
-                    'sqft_above'
-                    ]
-
-# Reassign X_train so that it only contains relevant columns
-X_train = X_train.loc[:, relevant_columns]
-```
-
-
-```python
-X_train.isna().sum()
-```
-
-
-
-
-    bathrooms        0
-    bedrooms         0
-    sqft_living      0
-    waterfront       0
-    view             0
-    condition        0
-    grade            0
-    sqft_basement    0
-    lat              0
-    floors           0
-    sqft_above       0
-    dtype: int64
-
-
-
-
-```python
-# Convert Categorical Features into Numbeers
-X_train.info()
-```
-
-    <class 'pandas.core.frame.DataFrame'>
-    Int64Index: 11571 entries, 560 to 10173
-    Data columns (total 11 columns):
-     #   Column         Non-Null Count  Dtype  
-    ---  ------         --------------  -----  
-     0   bathrooms      11571 non-null  float64
-     1   bedrooms       11571 non-null  int64  
-     2   sqft_living    11571 non-null  int64  
-     3   waterfront     11571 non-null  object 
-     4   view           11571 non-null  object 
-     5   condition      11571 non-null  object 
-     6   grade          11571 non-null  object 
-     7   sqft_basement  11571 non-null  float64
-     8   lat            11571 non-null  float64
-     9   floors         11571 non-null  float64
-     10  sqft_above     11571 non-null  int64  
-    dtypes: float64(4), int64(3), object(4)
-    memory usage: 1.1+ MB
-
-
-
-```python
-# date, waterfront, view, condition, and grade are objects
-from sklearn.preprocessing import OrdinalEncoder
-
-```
-
-
-```python
-# waterfront transform
-waterfront_train = X_train[['waterfront']]
-encoder_waterfront = OrdinalEncoder(categories=[['NO', 'YES']])
-encoder_waterfront.fit(waterfront_train)
-waterfront_encoded_train = encoder_waterfront.transform(waterfront_train)
-waterfront_encoded_train = waterfront_encoded_train.flatten()
-X_train['waterfront'] = waterfront_encoded_train
-```
-
-
-```python
-# view transform
-view_train = X_train[['view']]
-encoder_view = OrdinalEncoder(categories=[['NONE', 'FAIR', 'AVERAGE', 'GOOD', 'EXCELLENT']])
-encoder_view.fit(view_train)
-view_encoded_train = encoder_view.transform(view_train)
-view_encoded_train = view_encoded_train.flatten()
-X_train['view'] = view_encoded_train
-```
-
-
-```python
-# condition transform
-condition_train = X_train[['condition']]
-encoder_condition = OrdinalEncoder(categories=[['Poor', 'Fair', 'Average', 'Good', 'Very Good']])
-encoder_condition.fit(condition_train)
-condition_encoded_train = encoder_condition.transform(condition_train)
-condition_encoded_train = condition_encoded_train.flatten()
-X_train['condition'] = condition_encoded_train
-```
-
-
-```python
-# grade transform
-grade_train = X_train[['grade']]
-encoder_grade = OrdinalEncoder(categories=[['3 Poor', '4 Low', '5 Fair', '6 Low Average', '7 Average', '8 Good', '9 Better', '10 Very Good', '11 Excellent', '12 Luxury', '13 Mansion']])
-encoder_grade.fit(grade_train)
-grade_encoded_train = encoder_grade.transform(grade_train)
-grade_encoded_train = grade_encoded_train.flatten()
-X_train['grade'] = grade_encoded_train
-```
+In train data, i transformed the categorical variables to numeric variables with ordinal encoder.
 
 ### Preprocess Test Data
-
-
-```python
-# Drop Irrelevant Columns
-X_test = X_test.loc[:, relevant_columns]
-
-# Transform categorical values to numbers
-# waterfront transform
-waterfront_test = X_test[['waterfront']]
-waterfront_encoded_test = encoder_waterfront.transform(waterfront_test).flatten()
-X_test['waterfront'] = waterfront_encoded_test
-# view transform
-view_test = X_test[['view']]
-view_encoded_test = encoder_view.transform(view_test).flatten()
-X_test['view'] = view_encoded_test
-# condition transform
-condition_test = X_test[['condition']]
-condition_encoded_test = encoder_condition.transform(condition_test).flatten()
-X_test['condition'] = condition_encoded_test
-# grade transform
-grade_test = X_test[['grade']]
-grade_encoded_test = encoder_grade.transform(grade_test).flatten()
-X_test['grade'] = grade_encoded_test
-
-```
+In test data, i transformed the categorical variables to numeric variables with ordinal encoder.
 
 ### Find houses near middle school
-
-
-```python
-# visualize the hub distance
-cleaned_df2.describe()['HubDist'].loc[['25%','50%','75%']].plot.bar(figsize=(16,10), fontsize=20)
-plt.axhline(0.7, color='red', label='0.7 miles', linewidth = 2)
-plt.title('Top Three Interquartile Ranges for Home to School Distance', fontsize=20)
-plt.ylabel('Distance')
-plt.legend()
-```
-
-
-
-
-    <matplotlib.legend.Legend at 0x7f7920a3d520>
-
-
-
+* Our investor is looking for a property close to a middle school.
+* This figure shows the houses split into quarters based on the distance a house is to nearest middle school. 
+The closest 25% of houses sold in King County are 0.7 miles away or less from their nearest middle school.
+* To guarantee a quick commute time to school, the homebuyer should buy a house that is 0.7 miles away or less from a middle school.
 
     
 ![png](image/top3_distance.png)
     
-
-
-
-```python
-# drop houses' school disctance under 0.7 miles that is shown above
-cleaned_df2 = cleaned_df2.loc[cleaned_df2.HubDist <= 0.7]
-cleaned_df2.head()
-```
-
-
-
 
 <div>
 <style scoped>
@@ -1198,45 +811,21 @@ model.score(X_test**2, y_test)
 
 
 ### Prediction
-
-
-```python
-# Get total data
-y_total = pd.concat([y_test, y_train]).sort_index()
-X_total = pd.concat([X_test, X_train]).sort_index()
-
-# Predict price
-pred = model.predict(X_total**2).round()
-cleaned_df['predict_price'] = pred
-```
-
-
-```python
-# Visualize the real data with predicted data
-average_df = cleaned_df[['price', 'predict_price']].mean()
-average_df.plot.bar(fontsize=20, figsize=(10,9), color=['blue', 'orange'])
-plt.title('Real Price VS Predicted Price', fontsize=20)
-plt.xticks([0,1], ['Real Price: $541,497', 'Predicted: $542,798'], rotation=0)
-plt.show()
-```
-
+* The bar graph represents the models accuracy.
+* Real Price: represents the average home price of all homes in our data. 
+* Predicted Price: the average home price predicted by our model.
+* 71.5% of the data fit our house price prediction model. 
 
     
 ![png](image/evaluation.png)
     
 
 
-### Apply to business problem
+# Apply to business problem
 
-
-```python
-# Find houses that is under the 60% price that AI predicted
-results_df = cleaned_df.loc[cleaned_df.price < cleaned_df.predict_price*0.6, ['id', 'price', 'predict_price', 'lat', 'long']]
-results_df
-```
-
-
-
+### MAP1
+*This map shows the houses that have actual prices 40% less than the predicted price of our model.
+*The model recommends to consider buying these 507 houses from the original list of 21597 houses.
 
 <div>
 <style scoped>
@@ -1358,86 +947,15 @@ results_df
 </div>
 
 
-
-
-```python
-# Visualize all houses
-import folium
-
-map1 = folium.Map(location=[47.5,-122])
-points = (results_df.lat, results_df.long)
-lat = points[0]
-long = points[1]
-
-for la, lo, real, pred in zip(lat, long, results_df.price, results_df.predict_price):
-    iframe = folium.IFrame('price: ${} predict: ${}'.format(real, pred), width=100, height=100)
-    popup = folium.Popup(iframe, max_width=100)
-    folium.Marker(location=[la,lo],popup=popup).add_to(map1)
-    
-map1
-
-```
 ![png](image/map1.png)
-
-
-
-```python
-# Available profits
-results_df[['price', 'predict_price']].mean().plot.bar(figsize=(10,9), fontsize=20, color=['green', 'red'])
-plt.xticks([0,1],['BUY: $364,219', 'VALUE: $698,198'], rotation=0);
-plt.title('Profitable Houses Average Price', fontsize=20)
-```
-
-
-
-
-    Text(0.5, 1.0, 'Profitable Houses Average Price')
-
-
-
 
     
 ![png](image/profitable_houses.png)
     
-
-
-
-```python
-# Visualize houses that is near middle school
-results_df = results_df.join(cleaned_df2, how='inner', lsuffix='index')
-map2 = folium.Map(location=[47.5,-122])
-points = (results_df.lat, results_df.long)
-lat = points[0]
-long = points[1]
-
-for la, lo, real, pred in zip(lat, long, results_df.price, results_df.predict_price):
-    iframe = folium.IFrame('price: ${} predict: ${}'.format(real, pred), width=100, height=100)
-    popup = folium.Popup(iframe, max_width=100)
-    folium.Marker(location=[la,lo],popup=popup).add_to(map2)
-```
-
-
-```python
-map2
-```
+### MAP2
+* This map shows houses priced less than the predicted value and also fall 0.7 miles or less from the nearest middle school.
+* These100 houses are our final recommendation for the stakeholder. 
 ![png](image/map2.png)
-
-
-
-```python
-# Available profits
-results_df[['price', 'predict_price']].mean().plot.bar(figsize=(10,9), fontsize=20, color=['blue', 'red'])
-plt.xticks([0,1],['BUY: $301,645', 'VALUE: $564,435'], rotation=0);
-plt.title('Profitable Houses Near Middle School', fontsize=20)
-```
-
-
-
-
-    Text(0.5, 1.0, 'Profitable Houses Near Middle School')
-
-
-
 
     
 ![png](image/near_middle_school.png)
@@ -1451,7 +969,9 @@ plt.title('Profitable Houses Near Middle School', fontsize=20)
 
 * To mitigate the commute time for the middle school child we found how many of the 507 houses fall within 0.7 miles from the closest middle school. We found a final list of100 houses that lie within 0.7 miles from a middle school!
 
+# Sources
+### Jupyter notebook
+![Open](student.ipynb)
 
-```python
-
-```
+### Presentation
+![Open](presentation.pdf)
