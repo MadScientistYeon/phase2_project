@@ -752,7 +752,7 @@ plt.show()
 
 
     
-![png](image/numeric feature.png)
+![png](image/numeric_feature.png)
     
 
 
@@ -775,7 +775,7 @@ fig.tight_layout()
 
 
     
-![png](image/categorical feature.png)
+![png](image/categorical_feature.png)
     
 
 
@@ -975,7 +975,7 @@ plt.legend()
 
 
     
-![png](image/top3 distance.png)
+![png](image/top3_distance.png)
     
 
 
@@ -1397,7 +1397,7 @@ plt.title('Profitable Houses Average Price', fontsize=20)
 
 
     
-![png](image/profitable houses.png)
+![png](image/profitable_houses.png)
     
 
 
@@ -1440,7 +1440,7 @@ plt.title('Profitable Houses Near Middle School', fontsize=20)
 
 
     
-![png](image/near middle school.png)
+![png](image/near_middle_school.png)
     
 
 
