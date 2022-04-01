@@ -824,127 +824,8 @@ model.score(X_test**2, y_test)
 # Apply to business problem
 
 ### MAP1
-*This map shows the houses that have actual prices 40% less than the predicted price of our model.
-*The model recommends to consider buying these 507 houses from the original list of 21597 houses.
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>id</th>
-      <th>price</th>
-      <th>predict_price</th>
-      <th>lat</th>
-      <th>long</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>51</th>
-      <td>7231300125</td>
-      <td>345000.0</td>
-      <td>604994.0</td>
-      <td>47.4934</td>
-      <td>-122.189</td>
-    </tr>
-    <tr>
-      <th>65</th>
-      <td>3253500160</td>
-      <td>317625.0</td>
-      <td>656787.0</td>
-      <td>47.5747</td>
-      <td>-122.304</td>
-    </tr>
-    <tr>
-      <th>107</th>
-      <td>3530510041</td>
-      <td>188500.0</td>
-      <td>367002.0</td>
-      <td>47.3813</td>
-      <td>-122.322</td>
-    </tr>
-    <tr>
-      <th>142</th>
-      <td>1432900240</td>
-      <td>205000.0</td>
-      <td>345225.0</td>
-      <td>47.4563</td>
-      <td>-122.171</td>
-    </tr>
-    <tr>
-      <th>194</th>
-      <td>3996900125</td>
-      <td>230000.0</td>
-      <td>439855.0</td>
-      <td>47.7481</td>
-      <td>-122.300</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>21211</th>
-      <td>2738640470</td>
-      <td>623300.0</td>
-      <td>1207573.0</td>
-      <td>47.7726</td>
-      <td>-122.162</td>
-    </tr>
-    <tr>
-      <th>21263</th>
-      <td>6056110780</td>
-      <td>229800.0</td>
-      <td>405694.0</td>
-      <td>47.5647</td>
-      <td>-122.293</td>
-    </tr>
-    <tr>
-      <th>21347</th>
-      <td>3782760080</td>
-      <td>410000.0</td>
-      <td>689145.0</td>
-      <td>47.7345</td>
-      <td>-121.967</td>
-    </tr>
-    <tr>
-      <th>21420</th>
-      <td>1608000120</td>
-      <td>255000.0</td>
-      <td>430354.0</td>
-      <td>47.3860</td>
-      <td>-122.184</td>
-    </tr>
-    <tr>
-      <th>21546</th>
-      <td>2122059216</td>
-      <td>422000.0</td>
-      <td>735882.0</td>
-      <td>47.3846</td>
-      <td>-122.186</td>
-    </tr>
-  </tbody>
-</table>
-<p>507 rows × 5 columns</p>
-</div>
+* This map shows the houses that have actual prices 40% less than the predicted price of our model.
+* The model recommends to consider buying these 507 houses from the original list of 21597 houses.
 
 
 ![png](image/map1.png)
@@ -955,6 +836,8 @@ model.score(X_test**2, y_test)
 ### MAP2
 * This map shows houses priced less than the predicted value and also fall 0.7 miles or less from the nearest middle school.
 * These100 houses are our final recommendation for the stakeholder. 
+
+
 ![png](image/map2.png)
 
     
@@ -971,7 +854,7 @@ model.score(X_test**2, y_test)
 
 # Sources
 ### Jupyter notebook
-![Open](student.ipynb)
+![link](student.ipynb)
 
 ### Presentation
-![Open](presentation.pdf)
+![link](presentation.pdf)
